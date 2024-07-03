@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { dbConfig } from "@/utils/dbConfig";
+import Header from "./components/Header";
+import MainLayout from "./MainLayout";
+import { GlobalContext } from "./global/GlobalContext";
+import Provider from "./components/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +22,13 @@ export default async function RootLayout({
   await dbConfig();
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <GlobalContext>
+          <Provider>
+            <MainLayout children={children} />
+          </Provider>
+        </GlobalContext>
+      </body>
     </html>
   );
 }

@@ -2,75 +2,51 @@
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import React from "react";
-import { FaGithub } from "react-icons/fa";
-import { FaGoogle } from "react-icons/fa6";
 
 const page = () => {
-  const signInUser = (data: FormData) => {
-    const email = data.get("email");
-    const password = data.get("password");
+  const signinAction = async (formData: FormData) => {
+    const email = formData.get("email");
+    const password = formData.get("password");
 
     signIn("credentials", { email, password });
   };
   return (
-    <div className="flex w-full h-screen justify-center items-center">
-      <div className="border rounded-md w-[500px] min-h-[300px] p-4 ">
-        <div>Sign in Screen</div>
+    <div className="flex w-full h-screen items-center justify-center ">
+      <div className="p-4 border rounded-md w-[350px] h-[330px]">
+        <p className="uppercase font-medium pb-6 border-b mb-3">Signing in</p>
 
-        <div className="my-10">
-          <hr />
-        </div>
-        <form action={signInUser}>
+        <form action={signinAction}>
           <div className="flex flex-col mb-4">
-            <label className="font-semibold text-[12px]">Email</label>
+            <label className="text-[12px] font-semibold">Email</label>
             <input
-              type="text"
               name="email"
+              className="border rounded-md outline-none h-[45px] px-2"
               placeholder="Email"
-              className="border outline-none h-[45px] rounded-md pl-2"
             />
           </div>
           <div className="flex flex-col mb-4">
-            <label className="font-semibold text-[12px]">Password</label>
+            <label className="text-[12px] font-semibold">Password</label>
             <input
-              type="text"
               name="password"
+              className="border rounded-md outline-none h-[45px] px-2"
               placeholder="Password"
-              className="border outline-none h-[45px] rounded-md pl-2"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full mt-8 h-[55px] flex items-center justify-center text-white bg-neutral-800 rounded-md"
+            className={`bg-blue-950
+              text-white w-full h-[55px] flex justify-center items-center rounded-md`}
           >
-            Sign in
+            Process to Dashboard
           </button>
         </form>
-        <div className="text-[12px] my-4 text-center  ">
+        <div className="text-center my-2 text-[12px]">
           Don't have an Account{" "}
-          <Link href="/register" className="italic font-semibold ">
-            Sign in Here
+          <Link href="/register" className="font-semibold italic">
+            Register Here
           </Link>
-        </div>
-        <div className="my-3">
-          <hr />
-        </div>
-        <div>
-          <p className="text-[12px] font-bold">
-            Register through your Social Account
-          </p>
-
-          <div className="flex items-center gap-2">
-            <button className="w-full mt-2 h-[55px] flex items-center justify-center text-white bg-red-600 hover:bg-red-500 duration-300  rounded-md text-[35px]">
-              <FaGoogle />
-            </button>
-            <button className="w-full mt-2 h-[55px] flex items-center justify-center text-white bg-neutral-800 hover:bg-neutral-900 rounded-md text-[35px]">
-              <FaGithub />
-            </button>
-          </div>
         </div>
       </div>
     </div>

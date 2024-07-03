@@ -1,61 +1,42 @@
-import Button from "@/app/components/Button";
-import { data } from "@/utils/data";
-
+import { iData } from "@/utils/interface";
+import { registerData } from "@/utils/registerData";
 import Link from "next/link";
 import React from "react";
-import { MdBeachAccess, MdStadium, MdStars } from "react-icons/md";
 
 const page = () => {
   return (
-    <div className="flex justify-center w-full items-center h-screen">
-      <div className="flex gap-5">
-        {data?.map((props: any, i: number) => (
-          <div
+    <div className="flex flex-col w-full h-screen justify-center items-center bg-slate-50 ">
+      <Link href="/">
+        <div className="my-4  font-semibold uppercase text-[12px]">
+          Go Back Home
+        </div>
+      </Link>
+      <div className="flex gap-4">
+        {registerData?.map((props: iData) => (
+          <Link
+            href={props.url}
             key={props.id}
-            className="w-[300px] flex flex-col min-h-[500px] border rounded-md"
+            className="flex flex-col min-h-[300px] rounded-md border w-[250px] p-4 bg-white shadow-sm"
           >
-            <div className="flex-1 ">
-              <div className="flex w-full items-center mt-5 font-semibold uppercase flex-col">
-                <div>{props.name} </div>
-                <div>
-                  {props.name !== "Freemium" && "₦"}
-                  {props.price}
-                </div>
-              </div>
+            <p className="uppercase font-semibold pb-5 border-b">
+              {props.name}
+            </p>
+            <p className="uppercase font-semibold my-5 flex-1">{props.price}</p>
 
-              <div className="mt-10 px-5">
-                {props.benefits.map((props: string, i: number) => (
-                  <p key={i} className="my-5">
-                    &middot; {props}
-                  </p>
-                ))}
-              </div>
-            </div>
-            <Link href={props.URL} className="flex w-full justify-center mb-6">
-              <Button
-                icon={
-                  props.name === "Freemium" ? (
-                    <MdStadium />
-                  ) : props.name === "Starter" ? (
-                    <MdStars />
-                  ) : props.name === "Premium" ? (
-                    <MdBeachAccess />
-                  ) : null
-                }
-                className={`font-normal ${
-                  props.name === "Freemium"
-                    ? "bg-blue-950"
-                    : props.name === "Starter"
-                    ? "bg-red-500"
-                    : props.name === "Premium"
-                    ? "bg-green-500"
-                    : null
-                } `}
-              >
-                {props.name}
-              </Button>
-            </Link>
-          </div>
+            <button
+              className={`${
+                props.name === "Free"
+                  ? "bg-blue-950"
+                  : props.name === "Starter"
+                  ? "bg-red-500"
+                  : props.name === "Premium"
+                  ? "bg-purple-900"
+                  : null
+              } text-white w-full h-[55px] flex justify-center items-center rounded-md`}
+            >
+              Register for {props.name}
+            </button>
+          </Link>
         ))}
       </div>
     </div>

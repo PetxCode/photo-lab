@@ -19,3 +19,11 @@ export interface iPhoto {
 }
 
 export interface iPhotoData extends iPhoto, Document {}
+
+export interface iData {
+  id: number;
+  price: number;
+  name: string;
+  url: string;
+  benefit: string[];
+}
