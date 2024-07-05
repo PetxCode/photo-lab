@@ -3,12 +3,13 @@ import { iData } from "@/utils/interface";
 import { registerData } from "@/utils/registerData";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
-import { makePayment } from "./paymentAction";
+import { createAccount, makePayment } from "./paymentAction";
 import { redirect } from "next/navigation";
 import { ContextProvider } from "@/app/global/GlobalContext";
 
 const page = ({ params }: any) => {
   const { registrationName } = params;
+  const [state, setState] = useState({});
 
   const {
     urlPath,
@@ -41,8 +42,8 @@ const page = ({ params }: any) => {
       const email = formData.get("email") as string;
       const password = formData.get("password") as string;
 
-      await makePayment(email, data?.price!)
-        .then((res: any) => {
+      if (planValue !== "Free") {
+        return await makePayment(email, data?.price!).then((res: any) => {
           console.log(res?.data.data);
           console.log(res?.data.data.authorization_url);
 
@@ -54,12 +55,21 @@ const page = ({ params }: any) => {
 
           setUrlPath(res?.data.data.authorization_url);
           window.location.assign(res?.data.data.authorization_url);
-        })
-        .finally(() => {});
+        });
+      } else {
+        return createAccount(companyName, email, password, planValue).then(
+          () => {
+            return redirect("/signin");
+          }
+        );
+      }
+
+      //
     } catch (error) {
       console.error(error);
     }
   };
+
   localStorage.setItem(
     "data",
     JSON.stringify({

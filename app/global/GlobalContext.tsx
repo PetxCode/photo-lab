@@ -10,7 +10,9 @@ interface iContext {
   setEmail?: React.Dispatch<React.SetStateAction<string>>;
   setPlan?: React.Dispatch<React.SetStateAction<string>>;
   setUrlPath?: React.Dispatch<React.SetStateAction<string>>;
+  setToggle?: React.Dispatch<React.SetStateAction<boolean>>;
 
+  toggle?: boolean;
   urlPath?: string;
   refNplanumb?: string;
   refNumb?: string;
@@ -28,6 +30,7 @@ export const GlobalContext: FC<iContext> = ({ children }) => {
   const [refNumb, setRefNumb] = useState<string>("");
   const [plan, setPlan] = useState<string>("");
   const [urlPath, setUrlPath] = useState<string>("");
+  const [toggle, setToggle] = useState<boolean>(false);
 
   return (
     <ContextProvider.Provider
@@ -44,6 +47,8 @@ export const GlobalContext: FC<iContext> = ({ children }) => {
         setRefNumb,
         plan,
         setPlan,
+        toggle,
+        setToggle,
       }}
     >
       {children}

@@ -7,7 +7,7 @@ const page = async () => {
 
   console.log(session);
   return (
-    <div>
+    <div className=" w-full">
       <div>This is the main Dashboard Page</div>
 
       <div>Welcome back {session?.user.name}</div>

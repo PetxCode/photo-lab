@@ -13,7 +13,9 @@ const MainLayout: FC<iLayout> = ({ children }) => {
 
   console.log(path);
 
-  if (path === "/register") {
+  if (path === "/dashboard") {
+    return <div>{children}</div>;
+  } else if (path === "/register") {
     return <div>{children}</div>;
   } else if (path === "/signin") {
     return <div>{children}</div>;
