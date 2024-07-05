@@ -31,7 +31,6 @@ const Sider = () => {
 
   const { toggle, setToggle }: any = useContext(ContextProvider);
 
-  console.log(toggle);
   return (
     <div className="relative">
       {toggle && (

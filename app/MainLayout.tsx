@@ -11,8 +11,6 @@ interface iLayout {
 const MainLayout: FC<iLayout> = ({ children }) => {
   const path = usePathname();
 
-  console.log(path);
-
   if (path === "/dashboard") {
     return <div>{children}</div>;
   } else if (path === "/register") {

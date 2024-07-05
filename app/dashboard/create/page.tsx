@@ -1,13 +1,11 @@
 // "use server";
 import React from "react";
 import { MdPhotoAlbum } from "react-icons/md";
-import Close from "./Close";
-import cloudinary from "@/utils/cloudinary";
-import { ImageUpload } from "./imageUpload";
+import { ImageUpload } from "../components/imageUpload";
 
-const Modal = () => {
+const page = () => {
   const addMemory = async (formData: FormData) => {
-    // "use server";
+    "use server";
 
     const title = formData.get("title") as string;
     const image = formData.get("image") as File;
@@ -15,7 +13,7 @@ const Modal = () => {
     const file = await image.arrayBuffer();
     const buffer = new Uint8Array(file);
 
-    // ImageUpload(buffer);
+    ImageUpload(buffer);
   };
 
   return (
@@ -23,7 +21,7 @@ const Modal = () => {
       <div className="w-[400px] border rounded-md min-h-[200px] p-4">
         <p className="pb-5 mb-5 border-b w-full uppercase text-[12px] font-semibold flex justify-between items-center">
           <div> Adding up new Memory</div>
-          <Close />
+          {/* <Close /> */}
         </p>
 
         <form action={addMemory}>
@@ -62,4 +60,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default page;
