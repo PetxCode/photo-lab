@@ -24,13 +24,14 @@ const page = async () => {
 
   const removeImage = async (formData: FormData) => {
     "use server";
-    const photoID = formData.get("imageID");
+    const photoID = formData.getAll("imageID");
+    const str = photoID.toString().split(",");
 
-    await fetch(`${url}/${photoID}`, {
+    await fetch(`${url}/${str[0]}`, {
       method: "DELETE",
     });
 
-    // cloudinary.uploader.destroy(imageID);
+    cloudinary.uploader.destroy(str[1]);
 
     revalidateTag("images");
   };
@@ -69,7 +70,11 @@ const page = async () => {
                   </p>
 
                   <form action={removeImage}>
-                    <input type="hidden" value={props._id} name="imageID" />
+                    <input
+                      type="hidden"
+                      value={[props._id, props.imageID]}
+                      name="imageID"
+                    />
                     <button type="submit">
                       <MdDelete className="text-[25px] cursor-pointer text-red-500" />
                     </button>
