@@ -1,9 +1,17 @@
-// "use server";
 import React from "react";
 import { MdPhotoAlbum } from "react-icons/md";
-import { ImageUpload } from "../components/imageUpload";
+import Close from "../components/Close";
+import { imageUpload } from "@/utils/imageUpload";
+import { revalidateTag } from "next/cache";
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import { URL } from "@/utils/constant";
+import { redirect } from "next/navigation";
 
-const page = () => {
+const page = async () => {
+  const session: any = await getServerSession(options);
+  const url = `${URL}/api/photo/${session?.user.id}`;
+  console.log(session);
   const addMemory = async (formData: FormData) => {
     "use server";
 
@@ -11,9 +19,25 @@ const page = () => {
     const image = formData.get("image") as File;
 
     const file = await image.arrayBuffer();
-    const buffer = new Uint8Array(file);
+    const buffer: Uint8Array = new Uint8Array(file);
 
-    ImageUpload(buffer);
+    const { secure_url, public_id }: any = await imageUpload(buffer);
+
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+      },
+      body: JSON.stringify({
+        name: title,
+        imageURL: secure_url,
+        imageID: public_id,
+      }),
+    }).then(() => {
+      redirect("/dashboard");
+    });
+
+    revalidateTag("images");
   };
 
   return (
@@ -21,7 +45,7 @@ const page = () => {
       <div className="w-[400px] border rounded-md min-h-[200px] p-4">
         <p className="pb-5 mb-5 border-b w-full uppercase text-[12px] font-semibold flex justify-between items-center">
           <div> Adding up new Memory</div>
-          {/* <Close /> */}
+          <Close />
         </p>
 
         <form action={addMemory}>
@@ -48,9 +72,6 @@ const page = () => {
           <button
             className="flex items-center justify-center w-full h-[55px] bg-blue-950 text-white mt-5 rounded-md"
             type="submit"
-            // onClick={() => {
-            //   setToggle(false);
-            // }}
           >
             Create Memory
           </button>

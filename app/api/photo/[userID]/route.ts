@@ -92,5 +92,3 @@ export const POST = async (req: NextRequest, { params }: any) => {
     });
   }
 };
-
-

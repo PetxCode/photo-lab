@@ -1,23 +1,11 @@
-// "use server";
-import React from "react";
+"use cleint";
+import React, { useContext } from "react";
 import { MdPhotoAlbum } from "react-icons/md";
 import Close from "./Close";
-import cloudinary from "@/utils/cloudinary";
-import { ImageUpload } from "./imageUpload";
+import { ContextProvider } from "@/app/global/GlobalContext";
 
 const Modal = () => {
-  const addMemory = async (formData: FormData) => {
-    // "use server";
-
-    const title = formData.get("title") as string;
-    const image = formData.get("image") as File;
-
-    const file = await image.arrayBuffer();
-    const buffer = new Uint8Array(file);
-
-    // ImageUpload(buffer);
-  };
-
+  const { toggle, setToggle }: any = useContext(ContextProvider);
   return (
     <div className="w-full h-full flex items-center justify-center">
       <div className="w-[400px] border rounded-md min-h-[200px] p-4">
@@ -26,7 +14,7 @@ const Modal = () => {
           <Close />
         </p>
 
-        <form action={addMemory}>
+        <form>
           <div className="flex gap-3 items-center w-full">
             <div className="flex flex-col flex-1">
               <label className="text-[12px] font-semibold">
@@ -50,9 +38,9 @@ const Modal = () => {
           <button
             className="flex items-center justify-center w-full h-[55px] bg-blue-950 text-white mt-5 rounded-md"
             type="submit"
-            // onClick={() => {
-            //   setToggle(false);
-            // }}
+            onClick={() => {
+              setToggle(false);
+            }}
           >
             Create Memory
           </button>
